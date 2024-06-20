@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 
 
 
@@ -13,7 +14,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
   declarations: [
     LoginComponent,
     RegisterComponent,
-    HomePageComponent
+    HomePageComponent,
+    EditProfileComponent
   ],
   imports: [
     CommonModule,
