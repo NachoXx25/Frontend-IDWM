@@ -7,6 +7,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { RegisterComponent } from './pages/register/register.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
 
 
@@ -15,7 +16,8 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
     LoginComponent,
     RegisterComponent,
     HomePageComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,

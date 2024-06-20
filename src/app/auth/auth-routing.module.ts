@@ -4,6 +4,7 @@ import { LoginComponent } from "./pages/login/login.component";
 import { RegisterComponent } from "./pages/register/register.component";
 import { HomePageComponent } from "./pages/home-page/home-page.component";
 import { EditProfileComponent } from "./pages/edit-profile/edit-profile.component";
+import { ChangePasswordComponent } from "./pages/change-password/change-password.component";
 
 const routes: Routes = [
 
@@ -12,7 +13,7 @@ const routes: Routes = [
    { path: 'register', component: RegisterComponent},
    { path: 'editProfile', component: EditProfileComponent},
    { path: 'home', component: HomePageComponent},
-  // { path: 'changePassword', component: ChangePasswordComponent}
+   { path: 'changePassword', component: ChangePasswordComponent},
    {path: '**', redirectTo: ''}
 ];
 
