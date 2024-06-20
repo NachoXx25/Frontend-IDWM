@@ -1,0 +1,22 @@
+<label for="{{ label }}" class="block mb-2 text-sm font-medium text-gray-900">{{
+  label
+}}</label>
+
+<select
+  [formControl]="control"
+  id="{{ label }}"
+  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-120 mb-2 p-2.5"
+>
+  <option [ngValue]="null" selected disabled>{{ placeholder }}</option>
+
+  <option *ngFor="let option of options" [ngValue]="option.value">
+    {{ option.text }}
+  </option>
+</select>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['required'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> {{ requiredMessage }}
+</p>

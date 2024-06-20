@@ -1,0 +1,86 @@
+<label
+  for="{{ label }}"
+  class="text-gray-900 block mb-2 text-sm font-medium"
+  [ngClass]="{
+    'text-red-700': control.errors && control.touched && control.invalid
+  }"
+>
+  {{ label }}
+</label>
+
+<input
+  [formControl]="control"
+  id="{{ label }}"
+  type="{{ type }}"
+  placeholder="{{ placeholder }}"
+  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-120 p-2.5 mb-4"
+  [ngClass]="{
+    'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500':
+      control.errors && control.touched && control.invalid
+  }"
+/>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['required'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> {{ requiredMessage }}
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['invalidRut'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> El RUT es inválido
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['minlength'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> Debe tener al menos
+  {{ control.errors?.['minlength'].requiredLength }} caracteres
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['maxlength'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> Debe tener como máximo
+  {{ control.errors?.['maxlength'].requiredLength }} caracteres
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['noMatching'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> Las contraseñas deben ser iguales
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['fieldsAreSame'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> La nueva contraseña no puede ser igual a la contraseña actual
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['invalidDateFormat'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> El formato de la fecha es inválido
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['futureDate'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> La fecha debe ser menor a la actual
+</p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['email'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> Correo electrónico es inválido
+</p>
