@@ -14,8 +14,14 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
 
-  editUser(userId: string, model: any) {
-    return this.http.put(`${this.baseUrl}/user/${userId}`, model);
+  editUser(userId: number, model: any) {
+    const auth = JSON.parse(localStorage.getItem('auth') || '{}');
+    const token = auth?.token;
+    if(!token) {
+      throw new Error('Token not found');
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.baseUrl}/user/${userId}`, model, { headers });
   }
 
   changePassword(userId: number, model:any) {

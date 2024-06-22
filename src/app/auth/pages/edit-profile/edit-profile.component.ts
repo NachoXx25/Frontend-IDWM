@@ -1,6 +1,9 @@
+import { AuthService } from './../../../auth/services/auth.service';
+import { UserService } from './../../../_services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Auth } from 'src/app/_interfaces/auth';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,11 +18,14 @@ export class EditProfileComponent implements OnInit {
     { value: '3', text: 'Prefiero no decirlo' },
     { value: '4', text: 'Otro' },
   ];
-  errorMesaage: string = '';
-  constructor(private router: Router, private fb: FormBuilder) { }
+  errorMessage: string = '';
+  successMessage: boolean = false;
+  auth: Auth | null = null;
+  constructor(private router: Router, private fb: FormBuilder, private UserService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.auth = this.authService.getCurrentAuth();
   }
 
   initializeForm() {
@@ -56,6 +62,22 @@ export class EditProfileComponent implements OnInit {
 
       return null;
     };
+  }
+
+  editProfile() {
+    this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value).subscribe({
+      next: () => {
+        console.log(this.auth?.user?.id ?? 0);
+        this.successMessage = true;
+        this.editProfileForm.reset();
+        console.log('User updated');
+      },
+      error: (result) => {
+        if (typeof result.error === 'string') {
+          this.errorMessage = result.error;
+        }
+      }
+    });
   }
 
 }
