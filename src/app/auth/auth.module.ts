@@ -17,7 +17,7 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
     RegisterComponent,
     HomePageComponent,
     EditProfileComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
   ],
   imports: [
     CommonModule,

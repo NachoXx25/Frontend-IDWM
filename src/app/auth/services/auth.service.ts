@@ -47,6 +47,27 @@ export class AuthService {
     return null;
   }
 
+  getClaimsOfToken(): any {
+    const auth = this.getCurrentAuth();
+    if (auth) {
+      const token = auth.token;
+      const payload = token.split('.')[1];
+      const decodedPayload = atob(payload);
+      const claims = JSON.parse(decodedPayload);
+      return claims;
+    }
+    return null;
+  }
+
+  getRole(): string {
+    const claims = this.getClaimsOfToken();
+    if (claims) {
+      const roleKey = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+      return claims[roleKey] || '';
+    }
+    return '';
+  }
+
   logout() {
     localStorage.removeItem('auth');
     this.currentAuthSource.next(null);
