@@ -8,9 +8,14 @@ import { AuthService } from './../../../auth/services/auth.service';
 })
 export class HomeNavBarComponent implements OnInit {
   constructor(private AuthService: AuthService) { }
-  public auth: Auth | null = null;
-
+  auth: Auth | null = null;
+  role: string = '';
   ngOnInit(): void {
     this.auth = this.AuthService.getCurrentAuth();
+    this.getRole();
+  }
+
+  getRole() {
+    this.role = this.AuthService.getRole();
   }
 }

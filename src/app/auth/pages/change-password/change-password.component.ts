@@ -1,6 +1,9 @@
+import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../../_services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Auth } from 'src/app/_interfaces/auth';
 
 @Component({
   selector: 'app-change-password',
@@ -8,21 +11,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit{
-
+  auth: Auth | null = null;
   changePasswordForm: FormGroup = new FormGroup({});
   errorMessage: string = '';
-  constructor(private route: Router, private fb: FormBuilder) { }
+  successMessage: boolean = false;
+  constructor(private route: Router, private fb: FormBuilder, private userService: UserService, private AuthService: AuthService) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.auth = this.AuthService.getCurrentAuth();
   }
 
 
   initializeForm() {
     this.changePasswordForm = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      newPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.checkIfDifferent('password')]],
-      confirmPassword: ['', [Validators.required, this.matchValues('newPassword')]]
+      OldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      NewPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.checkIfDifferent('OldPassword')]],
+      ConfirmNewPassword: ['', [Validators.required, this.matchValues('NewPassword')]]
     });
   }
 
@@ -43,4 +48,23 @@ export class ChangePasswordComponent implements OnInit{
     };
   }
 
+  changePassword() {
+    if(this.changePasswordForm.valid && !this.successMessage){
+      this.userService.changePassword(this.auth?.user?.id ?? 0,this.changePasswordForm.value).subscribe({
+        next: () => {
+          this.changePasswordForm.reset();
+          this.successMessage = true;
+          console.log('Password changed');
+        },
+        error: (result) => {
+          if (typeof result.error === 'string') {
+            this.errorMessage = result.error;
+          }
+        }
+      });
+      }
+    }
 }
+
+
+
