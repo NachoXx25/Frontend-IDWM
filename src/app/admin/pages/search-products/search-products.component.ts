@@ -8,7 +8,6 @@ import { debounceTime, distinctUntilChanged, switchMap, startWith } from 'rxjs/o
 @Component({
   selector: 'app-search-products',
   templateUrl: './search-products.component.html',
-  styleUrls: ['./search-products.component.css']
 })
 export class SearchProductsComponent implements OnInit {
   products$: Observable<productDto[]> | undefined;
@@ -24,12 +23,10 @@ export class SearchProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Al iniciar el componente, cargar todos los productos
     this.loadProductsOnChange();
   }
 
   loadProductsOnChange(): void {
-    // Verificar que this.searchForm.get('searchQuery') no sea null antes de acceder a valueChanges
     const searchQueryControl = this.searchForm.get('searchQuery');
     if (searchQueryControl) {
       this.products$ = searchQueryControl.valueChanges.pipe(
@@ -38,9 +35,9 @@ export class SearchProductsComponent implements OnInit {
         distinctUntilChanged(), // Asegura que solo se realice una búsqueda si el valor ha cambiado
         switchMap(query => {
           if (query.trim() === '') {
-            return this.productService.getProducts(); // Carga todos los productos si la búsqueda está vacía
+            return this.productService.getProducts();
           } else {
-            return this.productService.searchProducts(query.trim()); // Realiza la búsqueda con el término ingresado
+            return this.productService.searchProducts(query.trim());
           }
         })
       );

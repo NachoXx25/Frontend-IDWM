@@ -13,18 +13,29 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   searchProducts(query: string): Observable<productDto[]> {
+    const auth = JSON.parse(localStorage.getItem('auth') || '{}');
+    const token = auth?.token;
+    if(!token) {
+      throw new Error('Token not found');
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/product/search?query=${query}`;
 
     console.log('Llamando a la API para buscar compras on query...');
-    return this.http.get<productDto[]>(url);
+    return this.http.get<productDto[]>(url, {headers});
   }
 
   getProducts(): Observable<productDto[]> {
-
+    const auth = JSON.parse(localStorage.getItem('auth') || '{}');
+    const token = auth?.token;
+    if(!token) {
+      throw new Error('Token not found');
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/product/`;
 
     console.log('Llamando a la API para buscar compras todas...');
-    return this.http.get<productDto[]>(url);
+    return this.http.get<productDto[]>(url, {headers});
   }
 
   delProducts(id: number): Observable<string>{
@@ -43,11 +54,9 @@ export class ProductService {
       catchError((error: any) => {
         let errorMessage = 'Error desconocido al cambiar el estado del usuario.';
         if (error.error instanceof ErrorEvent) {
-          // Error de red u otro error del cliente
           errorMessage = `Error: ${error.error.message}`;
         } else {
-          // El backend devolvió un código de error, pero error.error es un texto
-          errorMessage = error.error; // Aquí asignarías el mensaje de texto directamente
+          errorMessage = error.error;
         }
         console.error('Error al cambiar el estado del usuario:', error);
         return throwError(errorMessage);

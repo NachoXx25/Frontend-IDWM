@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from './../../../auth/services/auth.service';
+import { Auth } from 'src/app/_interfaces/auth';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.AuthService.login(this.loginForm.value).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/home']);
       },
       error: (result) => {
         if (typeof result.error === 'string') {

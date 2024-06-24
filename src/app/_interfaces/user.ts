@@ -1,4 +1,5 @@
 import { Gender } from './gender';
+import { Role } from './role';
 
 export interface User {
     id:       number;
@@ -8,4 +9,5 @@ export interface User {
     email:    string;
     isActive: boolean;
     gender:   Gender;
+    role: Role;
 }

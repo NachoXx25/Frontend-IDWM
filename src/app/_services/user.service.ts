@@ -38,97 +38,80 @@ export class UserService {
   }
 
   changeUserState(userId: number, newUserState: string): Observable<string> {
+
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
-
-    if (!token) {
-      throw new Error('Token no encontrado en el localStorage');
+    if(!token) {
+      throw new Error('Token not found');
     }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
-
-    const url = `${this.baseUrl}/user/${userId}/state`;
-    const body = JSON.stringify(newUserState);
+    const url = `${this.baseUrl}/User/${userId}/state/${newUserState}`;
 
     console.log(`Llamando a la API para cambiar el estado del usuario ${userId} a ${newUserState}`);
-    return this.http.put(url, body, { headers, responseType: 'text' }).pipe(
+
+    return this.http.put(url, null, { headers, responseType: 'text' }).pipe(
       catchError((error: any) => {
         let errorMessage = 'Error desconocido al cambiar el estado del usuario.';
         if (error.error instanceof ErrorEvent) {
-          // Error de red u otro error del cliente
           errorMessage = `Error: ${error.error.message}`;
         } else {
-          // El backend devolvió un código de error, pero error.error es un texto
-          errorMessage = error.error; // Aquí asignarías el mensaje de texto directamente
+          errorMessage = error.error;
         }
         console.error('Error al cambiar el estado del usuario:', error);
         return throwError(errorMessage);
       })
-    )
+    );
   }
 
   searchUsers(query: string): Observable<User[]> {
+
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
-    if (!token) {
-      throw new Error('Token no encontrado en el localStorage');
+    if(!token) {
+      throw new Error('Token not found');
     }
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    const url = `${this.baseUrl}/user/search?query=${query}`;
 
+    const url = `${this.baseUrl}/user/search?query=${query}`;
     console.log('Llamando a la API para buscar users on query...');
-    return this.http.get<User[]>(url, { headers });
+    return this.http.get<User[]>(url, {headers});
   }
 
   getUsers(): Observable<User[]> {
-
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
-
-    if (!token) {
-      throw new Error('Token no encontrado en el localStorage');
+    if(!token) {
+      throw new Error('Token not found');
     }
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/user/`;
-
     console.log('Llamando a la API para buscar todos los usuarios...');
-    return this.http.get<User[]>(url, { headers });
+    return this.http.get<User[]>(url, {headers});
   }
 
   searchPurchases(query: string): Observable<Purchase[]> {
-
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
-
-    if (!token) {
-      throw new Error('Token no encontrado en el localStorage');
+    if(!token) {
+      throw new Error('Token not found');
     }
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/user/purchases/search?query=${query}`;
-
     console.log('Llamando a la API para buscar compras on query...');
-    return this.http.get<Purchase[]>(url, { headers });
+    return this.http.get<Purchase[]>(url, {headers});
   }
 
   getPurchases(): Observable<Purchase[]> {
-
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
-
-    if (!token) {
-      throw new Error('Token no encontrado en el localStorage');
+    if(!token) {
+      throw new Error('Token not found');
     }
-
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     const url = `${this.baseUrl}/user/purchases`;
-
     console.log('Llamando a la API para buscar compras todas...');
-    return this.http.get<Purchase[]>(url, { headers });
+    return this.http.get<Purchase[]>(url,{headers});
   }
 
 }
