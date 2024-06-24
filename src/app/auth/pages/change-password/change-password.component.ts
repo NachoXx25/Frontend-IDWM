@@ -30,8 +30,6 @@ export class ChangePasswordComponent implements OnInit{
       ConfirmNewPassword: ['', [Validators.required, this.matchValues('NewPassword')]]
     });
   }
-
-
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
       return control.value === control.parent?.get(matchTo)?.value
@@ -49,22 +47,25 @@ export class ChangePasswordComponent implements OnInit{
   }
 
   changePassword() {
+    this.errorMessage = '';
+    this.successMessage = false;
     if(this.changePasswordForm.valid && !this.successMessage){
-      this.userService.changePassword(this.auth?.user?.id ?? 0,this.changePasswordForm.value).subscribe({
-        next: () => {
-          this.changePasswordForm.reset();
-          this.successMessage = true;
-          console.log('Password changed');
-        },
-        error: (result) => {
-          if (typeof result.error === 'string') {
-            this.errorMessage = result.error;
-          }
+      this.userService.changePassword(this.auth?.user?.id ?? 0,this.changePasswordForm.value)
+      .then((result) => {
+        this.successMessage = true
+        this.changePasswordForm.reset();
+        console.log('Contraseña cambiada:', result);
+      })
+      .catch((error) => {
+        if (typeof error.error === 'string') {
+          this.errorMessage = error.error;
+        } else if (error.message) {
+          this.errorMessage = error.message;
         }
+        console.log(error);
       });
-      }
     }
 }
 
 
-
+}

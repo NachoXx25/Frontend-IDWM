@@ -36,6 +36,7 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
+
   validateDate(): ValidatorFn {
     return (control: AbstractControl) => {
       const date = control.value;
@@ -65,19 +66,21 @@ export class EditProfileComponent implements OnInit {
   }
 
   editProfile() {
-    this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value).subscribe({
-      next: () => {
-        console.log(this.auth?.user?.id ?? 0);
-        this.successMessage = true;
-        this.editProfileForm.reset();
-        console.log('User updated');
-      },
-      error: (result) => {
-        if (typeof result.error === 'string') {
-          this.errorMessage = result.error;
+    this.errorMessage = '';
+    this.successMessage = false;
+    this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value).then((result) => {
+      this.successMessage = true
+      this.editProfileForm.reset();
+      console.log('Contraseña cambiada:', result);
+      })
+      .catch((error) => {
+        if (typeof error.error === 'string') {
+          this.errorMessage = error.error;
+        } else if (error.message) {
+          this.errorMessage = error.message;
         }
-      }
-    });
+        console.log(error);
+      });
   }
 
 }

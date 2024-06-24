@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment.development';
 import { AuthService } from '../auth/services/auth.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,9 @@ export class UserService {
       throw new Error('Token not found');
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put(`${this.baseUrl}/user/${userId}`, model, { headers });
+    return firstValueFrom(
+      this.http.put(`${this.baseUrl}/user/${userId}`, model, { headers, responseType: 'text' })
+    );
   }
 
   changePassword(userId: number, model:any) {
@@ -31,7 +34,10 @@ export class UserService {
       throw new Error('Token not found');
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put(`${this.baseUrl}/user/${userId}/password`, model, { headers });
+
+    return firstValueFrom(
+      this.http.put(`${this.baseUrl}/user/${userId}/password`, model, { headers, responseType: 'text' })
+    );
   }
 }
 
