@@ -26,15 +26,13 @@ export class ChangePasswordComponent implements OnInit{
   initializeForm() {
     this.changePasswordForm = this.fb.group({
       OldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      NewPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.checkIfDifferent('OldPassword')]],
-      ConfirmNewPassword: ['', [Validators.required, this.matchValues('NewPassword')]]
+      NewPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.checkIfDifferent('OldPassword'), this.mustBeAlphanumeric('NewPassword')]],
+      ConfirmNewPassword: ['', [Validators.required, this.matchValues('NewPassword'), this.mustBeAlphanumeric('ConfirmNewPassword')]]
     });
   }
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
-      return control.value === control.parent?.get(matchTo)?.value
-        ? null
-        : { noMatching: true };
+      return control.value === control.parent?.get(matchTo)?.value? null: { noMatching: true };
     };
   }
 
@@ -43,6 +41,13 @@ export class ChangePasswordComponent implements OnInit{
       return control.value !== control.parent?.get(matchTo)?.value
         ? null
         : { fieldsAreSame: true };
+    };
+  }
+
+  mustBeAlphanumeric(pass: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.parent?.get(pass)?.value
+      return value && !/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$/.test(value) ? null : { invalidAlphanumeric: true };
     };
   }
 
@@ -57,15 +62,16 @@ export class ChangePasswordComponent implements OnInit{
         console.log('Contraseña cambiada:', result);
       })
       .catch((error) => {
-        if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
-        } else if (error.message) {
-          this.errorMessage = error.message;
+        if (error.error && error.error.errors && error.error.errors.NewPassword) {
+          this.errorMessage = error.error.errors.NewPassword[0];
+          console.error('Error: ', this.errorMessage);
+        } else if (error.error && error.error.message) {
+              this.errorMessage = error.error.message;
+              console.error('Error: ', this.errorMessage);
+        } else {
+              this.errorMessage = 'Ocurrió un error inesperado.';
         }
-        console.log(error);
       });
     }
-}
-
-
+  }
 }

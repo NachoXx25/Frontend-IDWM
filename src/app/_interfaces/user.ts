@@ -1,11 +1,12 @@
-import { Gender } from './gender';
+import { Gender } from "./gender";
 
 export interface User {
-    id:       number;
-    rut:      string;
-    name:     string;
-    birthday: Date;
-    email:    string;
+    id: number;
+    rut: string;
+    name: string;
+    birthdate: string;
+    email: string;
     isActive: boolean;
-    gender:   Gender;
+    gender: Gender;
+
 }

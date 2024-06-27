@@ -68,18 +68,15 @@ export class EditProfileComponent implements OnInit {
   editProfile() {
     this.errorMessage = '';
     this.successMessage = false;
-    this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value).then((result) => {
+    this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value)
+    .then((result) => {
       this.successMessage = true
       this.editProfileForm.reset();
-      console.log('Contraseña cambiada:', result);
+      console.log('Perfil cambiado: ', result);
       })
       .catch((error) => {
-        if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
-        } else if (error.message) {
-          this.errorMessage = error.message;
-        }
-        console.log(error);
+        this.errorMessage = error;
+        console.error('Error: ', error);
       });
   }
 
