@@ -16,16 +16,19 @@
           <p class="block text-2xl text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" aria-current="page">¡Bienvenido!</p>
         </li>
         <li>
-          <a routerLink="/login" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline" *ngIf="role == 'Admin'">Gestión de Productos</a>
+          <a routerLink="/admin/ProductsViewAndSearch" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline" *ngIf="role == 'Admin'">Gestión de Productos</a>
         </li>
         <li>
-          <a routerLink="/register" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline" *ngIf="role == 'Admin'">Gestión de Clientes</a>
+          <a routerLink="/admin/ManageUser" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline" *ngIf="role == 'Admin'">Gestión de Clientes</a>
+        </li>
+        <li>
+          <a routerLink="/admin/PurchasesViewAndSearch" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline" *ngIf="role == 'Admin'">Gestión de Compras</a>
         </li>
         <li>
           <a routerLink="/customer/purchase" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline" *ngIf="role != 'Admin'">Compra aquí</a>
         </li>
         <li>
-          <a routerLink="/editProfile" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline">Ajustes de Perfil</a>
+          <a routerLink="/auth/editProfile" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline">Ajustes de Perfil</a>
         </li>
       </ul>
     </div>

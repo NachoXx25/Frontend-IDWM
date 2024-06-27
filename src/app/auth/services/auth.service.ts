@@ -47,6 +47,16 @@ export class AuthService {
     return null;
   }
 
+  isAuth(): boolean{
+    const active = this.getCurrentAuth();
+    if(active != null){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
   getClaimsOfToken(): any {
     const auth = this.getCurrentAuth();
     if (auth) {

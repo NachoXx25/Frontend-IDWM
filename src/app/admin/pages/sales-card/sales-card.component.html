@@ -1,0 +1,19 @@
+<div class="w-full max-w-sm bg-blue-400 border border-blue-200 rounded-lg shadow flex flex-col p-4" *ngIf="purchase">
+  <div class="px-6 py-4">
+    <div class="font-bold text-xl mb-2">Purchase Receipt</div>
+    <p class="text-gray-700 text-base mb-2"><strong>Product:</strong> {{ purchase.productName }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>Type:</strong> {{ purchase.productType }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>Price per Unit:</strong> ${{ purchase.productPrice }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>Quantity:</strong> {{ purchase.quantity }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>Total Price:</strong> ${{ purchase.totalPrice }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>Purchase Date:</strong> {{ purchase.purchase_Date | date: 'short' }}</p>
+  </div>
+
+  <div class="px-6 py-4 border-t border-gray-200">
+    <div class="font-bold text-lg mb-2">User Information</div>
+    <p class="text-gray-700 text-base mb-2"><strong>Name:</strong> {{ purchase.user.name }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>Email:</strong> {{ purchase.user.email }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>RUT:</strong> {{ purchase.user.rut }}</p>
+    <p class="text-gray-700 text-base mb-2"><strong>Birthday:</strong> {{ purchase.user.birthday | date: 'shortDate' }}</p>
+  </div>
+</div>
