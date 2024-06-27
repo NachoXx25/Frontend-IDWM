@@ -84,3 +84,10 @@
 >
   <span class="font-medium">¡Error!</span> Correo electrónico es inválido
 </p>
+
+<p
+  class="mt-1 text-sm text-red-600"
+  *ngIf="control.errors?.['invalidAlphanumeric'] && control.touched && control.invalid"
+>
+  <span class="font-medium">¡Error!</span> La contraseña debe ser alfanumérica
+</p>
