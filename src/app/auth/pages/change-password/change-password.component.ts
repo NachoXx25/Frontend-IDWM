@@ -26,17 +26,13 @@ export class ChangePasswordComponent implements OnInit{
   initializeForm() {
     this.changePasswordForm = this.fb.group({
       OldPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      NewPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.checkIfDifferent('OldPassword')]],
-      ConfirmNewPassword: ['', [Validators.required, this.matchValues('NewPassword')]]
+      NewPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.checkIfDifferent('OldPassword'), this.mustBeAlphanumeric('NewPassword')]],
+      ConfirmNewPassword: ['', [Validators.required, this.matchValues('NewPassword'), this.mustBeAlphanumeric('ConfirmNewPassword')]]
     });
   }
-
-
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
-      return control.value === control.parent?.get(matchTo)?.value
-        ? null
-        : { noMatching: true };
+      return control.value === control.parent?.get(matchTo)?.value? null: { noMatching: true };
     };
   }
 
@@ -48,23 +44,34 @@ export class ChangePasswordComponent implements OnInit{
     };
   }
 
+  mustBeAlphanumeric(pass: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      const value = control.parent?.get(pass)?.value
+      return value && !/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$/.test(value) ? null : { invalidAlphanumeric: true };
+    };
+  }
+
   changePassword() {
+    this.errorMessage = '';
+    this.successMessage = false;
     if(this.changePasswordForm.valid && !this.successMessage){
-      this.userService.changePassword(this.auth?.user?.id ?? 0,this.changePasswordForm.value).subscribe({
-        next: () => {
-          this.changePasswordForm.reset();
-          this.successMessage = true;
-          console.log('Password changed');
-        },
-        error: (result) => {
-          if (typeof result.error === 'string') {
-            this.errorMessage = result.error;
-          }
+      this.userService.changePassword(this.auth?.user?.id ?? 0,this.changePasswordForm.value)
+      .then((result) => {
+        this.successMessage = true
+        this.changePasswordForm.reset();
+        console.log('Contraseña cambiada:', result);
+      })
+      .catch((error) => {
+        if (error.error && error.error.errors && error.error.errors.NewPassword) {
+          this.errorMessage = error.error.errors.NewPassword[0];
+          console.error('Error: ', this.errorMessage);
+        } else if (error.error && error.error.message) {
+              this.errorMessage = error.error.message;
+              console.error('Error: ', this.errorMessage);
+        } else {
+              this.errorMessage = 'Ocurrió un error inesperado.';
         }
       });
-      }
     }
+  }
 }
-
-
-
