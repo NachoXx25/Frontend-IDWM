@@ -134,7 +134,7 @@ export class RegisterComponent implements OnInit {
   register() {
     this.AuthService.register(this.registerForm.value).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/auth/home']);
       },
       error: (result) => {
         if (typeof result.error === 'string') {
