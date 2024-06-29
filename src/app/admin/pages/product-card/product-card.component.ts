@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { productDto } from 'src/app/_interfaces/productDto';
 import { CommonModule } from '@angular/common';
 import { RoundPipe } from 'src/app/_pipes/round.pipe';
@@ -11,8 +11,13 @@ import { RoundPipe } from 'src/app/_pipes/round.pipe';
 })
 export class ProductCardComponent {
   @Input() product: productDto | undefined;
+  @Output() deleteProductClicked: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() {}
+
+  onDeleteProductClick(productId: number): void {
+    this.deleteProductClicked.emit(productId);
+  }
 
   createRange(n: number): number[] {
     return new Array(n);

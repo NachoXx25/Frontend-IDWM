@@ -52,13 +52,13 @@ export class ProductService {
     console.log('Llamando a la API para eliminar producto');
     return this.http.delete(url, { headers, responseType: 'text' }).pipe(
       catchError((error: any) => {
-        let errorMessage = 'Error desconocido al cambiar el estado del usuario.';
+        let errorMessage = 'Error desconocido al eliminar producto';
         if (error.error instanceof ErrorEvent) {
           errorMessage = `Error: ${error.error.message}`;
         } else {
           errorMessage = error.error;
         }
-        console.error('Error al cambiar el estado del usuario:', error);
+        console.error('Error al eliminar producto 2:', error);
         return throwError(errorMessage);
       })
     )

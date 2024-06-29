@@ -30,9 +30,9 @@ export class SearchProductsComponent implements OnInit {
     const searchQueryControl = this.searchForm.get('searchQuery');
     if (searchQueryControl) {
       this.products$ = searchQueryControl.valueChanges.pipe(
-        startWith(''), // Emite un valor inicial para que se carguen todos los productos al inicio
-        debounceTime(300), // Espera 300ms después de cada pulsación de tecla
-        distinctUntilChanged(), // Asegura que solo se realice una búsqueda si el valor ha cambiado
+        startWith(''),
+        debounceTime(300),
+        distinctUntilChanged(),
         switchMap(query => {
           if (query.trim() === '') {
             return this.productService.getProducts();
@@ -42,8 +42,19 @@ export class SearchProductsComponent implements OnInit {
         })
       );
     }
-    else{
-      this.productService.getProducts();
-    }
+  }
+
+  onDeleteProduct(productId: number): void {
+    this.productService.delProducts(productId).subscribe({
+      next: () => {
+        console.log(`Product with ID ${productId} deleted successfully.`);
+        // Aquí puedes recargar los productos después de la eliminación si es necesario
+        this.loadProductsOnChange();
+      },
+      error: (error) => {
+        console.error(`Error deleting product with ID ${productId}:`, error);
+        // Manejo de errores aquí
+      }
+    });
   }
 }
