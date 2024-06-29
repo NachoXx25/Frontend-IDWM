@@ -1,0 +1,32 @@
+<div class="grid grid-cols-2 max-w-screen-lg mx-auto">
+  <a routerLink="/auth/home" class="absolute top-0 left-0 mt-4 ml-10 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    Volver
+  </a>
+  <div class="col-span-12 lg:col-span-9">
+    <div class="mt-10 mb-10">
+      <form class="max-w-md mx-auto" [formGroup]="searchForm">
+        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+          </div>
+          <input type="text" formControlName="searchQuery" id="default-search" placeholder="Search products..." class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+        </div>
+      </form>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-6 justify-center">
+      <ng-container *ngIf="products$ | async as products; else loadingProducts">
+        <app-product-card-customer *ngFor="let product of products" [product]="product" (productSelected)="onProductSelect($event.product, $event.quantity)"></app-product-card-customer>
+      </ng-container>
+      <ng-template #loadingProducts>
+        <p>Cargando productos...</p>
+      </ng-template>
+    </div>
+  </div>
+</div>
