@@ -1,7 +1,5 @@
 <div class="grid grid-cols-2 max-w-screen-lg mx-auto">
-  <!-- Contenido principal -->
   <a routerLink="/auth/home" class="absolute top-0 left-0 mt-4 ml-10 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-    <!-- Icono opcional -->
     <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
     </svg>
@@ -24,7 +22,9 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-6 justify-center">
       <ng-container *ngIf="products$ | async as products; else loadingProducts">
-        <app-product-card *ngFor="let product of products" [product]="product" (deleteProductClicked)="onDeleteProduct($event)"></app-product-card>
+        <app-product-card *ngFor="let product of products" [product]="product"
+          (deleteProductClicked)="onDeleteProduct($event)"
+          (editProductClicked)="onEditProduct($event)"></app-product-card>
       </ng-container>
       <ng-template #loadingProducts>
         <p>Cargando productos...</p>

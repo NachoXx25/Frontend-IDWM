@@ -48,12 +48,22 @@ export class SearchProductsComponent implements OnInit {
     this.productService.delProducts(productId).subscribe({
       next: () => {
         console.log(`Product with ID ${productId} deleted successfully.`);
-        // Aquí puedes recargar los productos después de la eliminación si es necesario
         this.loadProductsOnChange();
       },
       error: (error) => {
         console.error(`Error deleting product with ID ${productId}:`, error);
-        // Manejo de errores aquí
+      }
+    });
+  }
+
+  onEditProduct(event: { id: number; data: FormData }): void {
+    this.productService.editProduct(event.id, event.data).subscribe({
+      next: (response) => {
+        console.log(`Product with ID ${event.id} updated successfully. Response:`, response);
+        this.loadProductsOnChange();
+      },
+      error: (error) => {
+        console.error(`Error updating product with ID ${event.id}:`, error);
       }
     });
   }
