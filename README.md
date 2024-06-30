@@ -1,27 +1,41 @@
-# FrontendIDWM
+# Inventory, user, and product purchase management system.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.14.
+## Installation
+For the execution of the project, the following must be installed:
+-   [Visual Studio Code 1.89.1](https://code.visualstudio.com/?wt.mc_id=vscom_downloads)
+-   [git 2.45.1](https://git-scm.com/downloads)
+- [Angular CLI version 16.2.14](https://v16.angular.io/guide/setup-local)
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Quick Start
+1. Clone this repository to your local machine using CMD:
+```bash
+    git clone https://github.com/NachoXx25/Frontend-IDWM.git
+```
+2. Navigate to the project folder:
+```bash
+    cd Frontend-IDWM
+```
+3. Open the proyect with Visual Studio Code:
+```bash
+    code .
+```
+4. To execute the proyect use the next command in the VSC terminal:
+```bash
+    ng serve -o 
+```
 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+# Important 
+In order to run the project correctly, you must have the following modified backend cloned [Backend of project.](https://github.com/Katapentakill/Backend-Editado-Taller2-WebMovil.git)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Authors information
+- Name: Ignacio Alfonso Valenzuela Godoy
+- Email: ignacio.valenzuela01@alumnos.ucn.cl 
+- Rut: 21.179.837-8
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Name: Alexander Gubier Oscar Tapia Olmedo
+- Email: Alexander.tapia@alumnos.ucn.cl
+- Rut: 20.544.596-k
