@@ -10,18 +10,24 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './product-card.component.html',
 })
 export class ProductCardComponentCustomer {
-  @Input() product: productDto | undefined;
-  @Output() productSelected = new EventEmitter<{ product: productDto, quantity: number }>();
-  quantity: number = 1;
+  @Input() product: productDto | undefined; // Producto a mostrar
+  @Output() productSelected = new EventEmitter<{ product: productDto, quantity: number }>(); // Evento al seleccionar un producto
+  quantity: number = 1; // Cantidad seleccionada
 
   constructor() {}
-
+  /**
+   * Selecciona un producto
+   */
   selectProduct() {
     if (this.product) {
       this.productSelected.emit({ product: this.product, quantity: this.quantity });
     }
   }
-
+  /**
+   *  Cambia la cantidad
+   * @param n  Nueva cantidad
+   * @returns  Rango de números
+   */
   createRange(n: number): number[] {
     return new Array(n);
   }

@@ -11,10 +11,12 @@ export class HomePageComponent implements OnInit{
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.getRolee();
+    this.getRolee(); // Obtener el rol
   }
 
-
+  /**
+   * Obtiene el rol
+   */
   getRolee()  {
     this.role = this.authService.getRole();
   }

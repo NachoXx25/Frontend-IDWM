@@ -7,7 +7,10 @@ import { AuthService } from './../../auth/services/auth.service';
 })
 export class CustomerGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
-
+  /**
+   *  Verifica si el usuario es un cliente
+   * @returns  Si el usuario es un cliente
+   */
   canActivate(): boolean {
     if(!this.authService.isAdmin()){
       return true;

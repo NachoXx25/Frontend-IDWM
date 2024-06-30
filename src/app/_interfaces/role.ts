@@ -1,4 +1,4 @@
 export interface Role{
-  id: number,
-  type: string
+  id: number, // Identificador del rol
+  type: string // Tipo de rol
 }

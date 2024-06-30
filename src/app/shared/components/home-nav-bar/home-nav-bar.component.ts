@@ -4,17 +4,19 @@ import { AuthService } from './../../../auth/services/auth.service';
 @Component({
   selector: 'app-home-nav-bar',
   templateUrl: './home-nav-bar.component.html',
-  styleUrls: ['./home-nav-bar.component.css']
+  styleUrls: []
 })
 export class HomeNavBarComponent implements OnInit {
   constructor(private AuthService: AuthService) { }
-  auth: Auth | null = null;
-  role: string = '';
+  auth: Auth | null = null; // Autenticación
+  role: string = ''; // Rol
   ngOnInit(): void {
-    this.auth = this.AuthService.getCurrentAuth();
-    this.getRole();
+    this.auth = this.AuthService.getCurrentAuth(); // Obtener la autenticación actual
+    this.getRole(); // Obtener el rol
   }
-
+  /**
+   * Obtiene el rol del servicio
+   */
   getRole() {
     this.role = this.AuthService.getRole();
   }

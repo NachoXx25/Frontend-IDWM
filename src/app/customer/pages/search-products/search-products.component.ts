@@ -15,9 +15,9 @@ import { SharedModule } from "../../../shared/shared.module";
   imports: [CommonModule, FormsModule, ReactiveFormsModule, ProductCardComponentCustomer, SharedModule]
 })
 export class SearchProductsComponentCustomer implements OnInit {
-  @Output() productSelected = new EventEmitter<{ product: productDto, quantity: number }>();
-  products$: Observable<productDto[]> | undefined;
-  searchForm: FormGroup;
+  @Output() productSelected = new EventEmitter<{ product: productDto, quantity: number }>(); // Evento al seleccionar un producto
+  products$: Observable<productDto[]> | undefined; // Lista de productos
+  searchForm: FormGroup; // Formulario de búsqueda
 
   constructor(
     private productService: ProductService,
@@ -25,13 +25,15 @@ export class SearchProductsComponentCustomer implements OnInit {
   ) {
     this.searchForm = this.fb.group({
       searchQuery: ['', Validators.required]
-    });
+    }); // Crear el formulario de búsqueda
   }
 
   ngOnInit(): void {
-    this.loadProductsOnChange();
+    this.loadProductsOnChange(); // Cargar los productos al iniciar
   }
-
+  /**
+   * Carga los productos al cambiar
+   */
   loadProductsOnChange(): void {
     const searchQueryControl = this.searchForm.get('searchQuery');
     if (searchQueryControl) {
@@ -49,7 +51,11 @@ export class SearchProductsComponentCustomer implements OnInit {
       );
     }
   }
-
+  /**
+   *  Cambia la cantidad
+   * @param product  Producto seleccionado
+   * @param quantity  Cantidad seleccionada
+   */
   onProductSelect(product: productDto, quantity: number) {
     this.productSelected.emit({ product, quantity });
   }

@@ -6,8 +6,11 @@ import { AuthService } from './../../auth/services/auth.service';
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
-
+  constructor(private authService: AuthService, private router: Router) {} // Constructor del guard
+  /**
+   *  Verifica si el usuario es administrador
+   * @returns  Si el usuario es administrador
+   */
   canActivate(): boolean {
     if (this.authService.isAdmin()) {
       return true;

@@ -1,4 +1,4 @@
 export interface Gender {
-  id: number;
-  type: string;
+  id: number; // Identificador del género
+  type: string;  // Tipo de género
 }

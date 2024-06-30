@@ -4,13 +4,15 @@ import { AuthService } from './../../../auth/services/auth.service';
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
-  styleUrls: ['./side-bar.component.css']
+  styleUrls: []
 })
 export class SideBarComponent {
-  isSidebarOpen = false;
+  isSidebarOpen = false; // Barra lateral abierta/cerrada
 
   constructor(private renderer: Renderer2, private el: ElementRef, private AuthService: AuthService) {}
-
+  /**
+   * Cambia el estado de la barra lateral
+   */
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
     const sidebar = this.el.nativeElement.querySelector('#logo-sidebar');
@@ -22,14 +24,19 @@ export class SideBarComponent {
       this.renderer.addClass(sidebar, '-translate-x-full');
     }
   }
-
+  /**
+   *  Cierra la barra lateral si se hace clic fuera de ella
+   * @param event Evento
+   */
   @HostListener('document:click', ['$event'])
   clickout(event: { target: any; }) {
     if (!this.el.nativeElement.contains(event.target) && this.isSidebarOpen) {
       this.toggleSidebar();
     }
   }
-
+  /**
+   * Cierra sesión del usuario
+   */
   logout() {
     this.AuthService.logout();
   }

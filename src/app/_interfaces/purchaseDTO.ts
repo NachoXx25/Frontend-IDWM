@@ -1,7 +1,7 @@
 export interface PurchaseDto {
 
-  quantity: string;
-  userId: string;
-  productId: string;
+  quantity: string; // Cantidad de productos
+  userId: string; // Identificador del usuario
+  productId: string; // Identificador del producto
 
 }

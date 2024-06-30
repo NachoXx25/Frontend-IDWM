@@ -5,27 +5,27 @@
 
   <div class="px-6 py-4">
     <div class="text-white font-bold text-xl mb-2">{{ product.name }}</div>
-    <p class="text-white text-base mb-2">Price: ${{ product.price }}</p>
+    <p class="text-white text-base mb-2">Precio: ${{ product.price }}</p>
     <p class="text-white text-base mb-2">Stock: {{ product.stock }}</p>
-    <p class="text-white text-base mb-2">Product Type: {{ product.productType.type }}</p>
+    <p class="text-white text-base mb-2">Categoría: {{ product.productType.type }}</p>
   </div>
 
   <div class="px-6 pt-4 pb-2">
     <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-black mr-2">
       ID: {{ product.id }}
     </span>
-    <button (click)="onDeleteProductClick(product.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-    <button (click)="toggleEdit()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2">Edit</button>
+    <button (click)="onDeleteProductClick(product.id)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+    <button (click)="toggleEdit()" class="bg-custom-morado-500 hover:bg-custom-morado-700 text-white font-bold py-2 px-4 rounded ml-2">Editar</button>
   </div>
 
   <div *ngIf="isEditing" class="px-6 pt-4 pb-2">
     <form (ngSubmit)="onSubmitEditForm()">
       <div>
-        <label for="name" class="block text-sm font-medium text-white">Name</label>
+        <label for="name" class="block text-sm font-medium text-white">Nombre</label>
         <input [(ngModel)]="editProduct.name" name="name" id="name" class="block w-full p-2 border rounded-lg" required />
       </div>
       <div>
-        <label for="price" class="block text-sm font-medium text-white">Price</label>
+        <label for="price" class="block text-sm font-medium text-white">Precio</label>
         <input [(ngModel)]="editProduct.price" name="price" id="price" type="number" class="block w-full p-2 border rounded-lg" required />
       </div>
       <div>
@@ -33,10 +33,10 @@
         <input [(ngModel)]="editProduct.stock" name="stock" id="stock" type="number" class="block w-full p-2 border rounded-lg" required />
       </div>
       <div>
-        <label for="image" class="block text-sm font-medium text-white">Image</label>
+        <label for="image" class="block text-sm font-medium text-white">Imagen</label>
         <input (change)="onFileSelected($event)" name="image" id="image" type="file" class="block w-full p-2 border rounded-lg" />
       </div>
-      <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2">Save</button>
+      <button type="submit" class="bg-custom-morado-500 hover:bg-custom-morado-700 text-white font-bold py-2 px-4 rounded mt-2">¡Guardar!</button>
     </form>
   </div>
 </div>

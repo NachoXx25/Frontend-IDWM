@@ -9,29 +9,31 @@ import { User } from 'src/app/_interfaces/user';
   templateUrl: './manage-user.component.html',
 })
 export class ManageUserComponent implements OnInit {
-  users$: Observable<User[]> | undefined;
-  searchForm: FormGroup;
+  users$: Observable<User[]> | undefined; // Lista de usuarios
+  searchForm: FormGroup; // Formulario de búsqueda
 
-  constructor(
+  constructor( // Constructor del componente
     private userService: UserService,
     private fb: FormBuilder
   ) {
     this.searchForm = this.fb.group({
       searchQuery: ['', Validators.required]
-    });
+    }); // Crear el formulario de búsqueda
   }
 
   ngOnInit(): void {
-    this.loadUserOnChange();
+    this.loadUserOnChange(); // Cargar los usuarios al iniciar
   }
-
+  /**
+   * Carga los usuarios al cambiar
+   */
   loadUserOnChange(): void {
     const searchQueryControl = this.searchForm.get('searchQuery');
     if (searchQueryControl) {
       this.users$ = searchQueryControl.valueChanges.pipe(
-        startWith(''),
-        debounceTime(300),
-        distinctUntilChanged(),
+        startWith(''), // Empezar con un valor vacío
+        debounceTime(300), // Esperar 300ms
+        distinctUntilChanged(), // No repetir si no cambia
         switchMap(query => {
           if (query.trim() === '') {
             return this.userService.getUsers();
@@ -42,18 +44,22 @@ export class ManageUserComponent implements OnInit {
       );
     }
     else{
-      this.userService.getUsers();
+      this.userService.getUsers(); // Llamar a la API para obtener los usuarios
     }
   }
-
+  /**
+   *  Cambia el estado de un usuario
+   * @param userId  ID del usuario
+   * @param newUserState  Nuevo estado del usuario
+   */
   changeUserState(userId: number, newUserState: string): void {
     this.userService.changeUserState(userId, newUserState).subscribe(
       response => {
         console.log(`Estado del usuario ${userId} cambiado a "${newUserState}"`);
-        this.loadUserOnChange(); // Recargar los usuarios después de cambiar el estado
+        this.loadUserOnChange(); // Recargar los usuarios
       },
       error => {
-        console.error('Error al cambiar el estado del usuario:', error);
+        console.error('Error al cambiar el estado del usuario:', error); // Mostrar error en consola
       }
     );
   }

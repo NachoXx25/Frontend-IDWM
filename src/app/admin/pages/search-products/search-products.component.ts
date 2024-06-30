@@ -11,12 +11,12 @@ import { productDto } from 'src/app/_interfaces/productDto';
   templateUrl: './search-products.component.html',
 })
 export class SearchProductsComponent implements OnInit {
-  products$: Observable<productDto[]> | undefined;
-  searchForm: FormGroup;
-  addForm: FormGroup;
-  productTypes: ProductType[] = [];
-  showSuccessMessage = false;
-  showErrorMessage = false;
+  products$: Observable<productDto[]> | undefined; // Lista de productos
+  searchForm: FormGroup; // Formulario de búsqueda
+  addForm: FormGroup; // Formulario de añadir
+  productTypes: ProductType[] = []; // Tipos de productos
+  showSuccessMessage = false; // Mostrar mensaje de éxito
+  showErrorMessage = false; // Mostrar mensaje de error
 
   constructor(
     private productService: ProductService,
@@ -32,14 +32,16 @@ export class SearchProductsComponent implements OnInit {
       stock: ['', Validators.required],
       image: [null, Validators.required],
       productTypeId: ['', Validators.required]
-    });
+    }); // Crear el formulario de añadir
   }
 
   ngOnInit(): void {
-    this.loadProductTypes();
-    this.loadProductsOnChange();
+    this.loadProductTypes(); // Cargar los tipos de productos
+    this.loadProductsOnChange(); // Cargar los productos al iniciar
   }
-
+  /**
+   * Carga los tipos de productos
+   */
   loadProductTypes(): void {
     this.productService.getProductTypes().subscribe({
       next: (types) => {
@@ -47,11 +49,12 @@ export class SearchProductsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading product types:', error);
-        // Handle errors if needed
       }
     });
   }
-
+  /**
+   * Carga los productos al cambiar
+   */
   loadProductsOnChange(): void {
     const searchQueryControl = this.searchForm.get('searchQuery');
     if (searchQueryControl) {
@@ -69,15 +72,17 @@ export class SearchProductsComponent implements OnInit {
       );
     }
   }
-
+  /**
+   * Añade un producto
+   */
   onSubmitAddForm(): void {
     if (this.addForm.valid) {
       const formData = new FormData();
       formData.append('Name', this.addForm.value.name);
       formData.append('Price', this.addForm.value.price);
       formData.append('Stock', this.addForm.value.stock);
-      formData.append('Image', this.addForm.value.image);
-      formData.append('ProductTypeId', this.addForm.value.productTypeId);
+      formData.append('Image', this.addForm.value.image); // Crear un objeto FormData con los datos del producto
+      formData.append('ProductTypeId', this.addForm.value.productTypeId); // Crear un objeto FormData con los datos del producto
 
       this.productService.addProduct(formData).pipe(
         catchError(error => {
@@ -104,7 +109,10 @@ export class SearchProductsComponent implements OnInit {
       });
     }
   }
-
+  /**
+   *  Elimina un producto
+   * @param productId ID del producto a eliminar
+   */
   onDeleteProduct(productId: number): void {
     if (confirm('¿Estás seguro de eliminar este producto?')) {
       this.productService.delProducts(productId).subscribe({
@@ -126,7 +134,10 @@ export class SearchProductsComponent implements OnInit {
       });
     }
   }
-
+  /**
+   *  Edita un producto
+   * @param event  ID y datos del producto a editar
+   */
   onEditProduct(event: { id: number; data: FormData }): void {
     this.productService.editProduct(event.id, event.data).subscribe({
       next: () => {
@@ -146,7 +157,10 @@ export class SearchProductsComponent implements OnInit {
       }
     });
   }
-
+  /**
+   *  Selecciona un archivo
+   * @param event  Evento del input
+   */
   onFileSelected(event: any): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];

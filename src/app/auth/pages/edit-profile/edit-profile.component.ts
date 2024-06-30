@@ -8,26 +8,28 @@ import { Auth } from 'src/app/_interfaces/auth';
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.css']
+  styleUrls: []
 })
 export class EditProfileComponent implements OnInit {
-  editProfileForm: FormGroup = new FormGroup({});
+  editProfileForm: FormGroup = new FormGroup({}); // Formulario de edición de perfil
   genderOptions: { value: string; text: string }[] = [
     { value: '1', text: 'Masculino' },
     { value: '2', text: 'Femenino' },
     { value: '3', text: 'Prefiero no decirlo' },
     { value: '4', text: 'Otro' },
-  ];
-  errorMessage: string = '';
-  successMessage: boolean = false;
-  auth: Auth | null = null;
+  ]; // Opciones de género
+  errorMessage: string = ''; // Mensaje de error
+  successMessage: boolean = false; // Mensaje de éxito
+  auth: Auth | null = null; // Autenticación
   constructor(private router: Router, private fb: FormBuilder, private UserService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.initializeForm();
-    this.auth = this.authService.getCurrentAuth();
+    this.initializeForm(); // Inicializar el formulario
+    this.auth = this.authService.getCurrentAuth(); // Obtener la autenticación actual
   }
-
+  /**
+   *  Inicializa el formulario
+   */
   initializeForm() {
     this.editProfileForm = this.fb.group({
       name: ['', [Validators.minLength(8), Validators.maxLength(255) ]],
@@ -36,7 +38,10 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-
+  /**
+   *  Valida la fecha
+   * @returns  Si la fecha es válida
+   */
   validateDate(): ValidatorFn {
     return (control: AbstractControl) => {
       const date = control.value;
@@ -64,17 +69,19 @@ export class EditProfileComponent implements OnInit {
       return null;
     };
   }
-
+  /**
+   * Edita el perfil
+   */
   editProfile() {
-    this.errorMessage = '';
-    this.successMessage = false;
+    this.errorMessage = ''; // Reiniciar mensajes
+    this.successMessage = false; // Reiniciar mensajes
     this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value)
     .then((result) => {
       this.successMessage = true
       this.editProfileForm.reset();
       console.log('Perfil cambiado: ', result);
       })
-      .catch((error) => {
+      .catch((error) => { // Capturar errores
         this.errorMessage = error;
         console.error('Error: ', error);
       });

@@ -1,6 +1,6 @@
 import { User } from "./user";
 
 export interface Auth {
-  user: User;
-  token: string;
+  user: User; // Objeto del usuario
+  token: string; // Token de autenticación
 }

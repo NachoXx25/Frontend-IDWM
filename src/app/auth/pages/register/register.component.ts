@@ -6,22 +6,25 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: []
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup = new FormGroup({});
+  registerForm: FormGroup = new FormGroup({}); // Formulario de registro
   genderOptions: { value: string; text: string }[] = [
     { value: '1', text: 'Masculino' },
     { value: '2', text: 'Femenino' },
     { value: '3', text: 'Prefiero no decirlo' },
     { value: '4', text: 'Otro' },
-  ];
-  errorMessage: string = '';
+  ]; // Opciones de género
+  errorMessage: string = ''; // Mensaje de error
   constructor(private router: Router, private AuthService: AuthService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.initializeForm();
+    this.initializeForm(); // Inicializar el formulario
   }
+  /**
+   * Inicializa el formulario
+   */
   initializeForm() {
       this.registerForm = this.fb.group({
         rut: ['', [Validators.required, this.validateRut()]],
@@ -49,11 +52,16 @@ export class RegisterComponent implements OnInit {
           this.matchValues('password')
         ]]
       });
+      //
       this.registerForm.controls['password'].valueChanges.subscribe({
         next: () =>
           this.registerForm.controls['confirmPassword'].updateValueAndValidity(),
-      });
+      }); // Crear el formulario de registro
   }
+  /**
+   *  Valida el RUT
+   * @returns  Si el RUT es válido
+   */
   validateRut(): ValidatorFn {
     return (control: AbstractControl) => {
       const rut = control.value;
@@ -95,7 +103,10 @@ export class RegisterComponent implements OnInit {
       return null;
     };
   }
-
+  /**
+   *  Valida la fecha
+   * @returns  Si la fecha es válida
+   */
   validateDate(): ValidatorFn {
     return (control: AbstractControl) => {
       const date = control.value;
@@ -123,7 +134,11 @@ export class RegisterComponent implements OnInit {
       return null;
     };
   }
-
+  /**
+   *  Compara dos campos
+   * @param matchTo  Campo a comparar
+   * @returns
+   */
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
       return control.value === control.parent?.get(matchTo)?.value
@@ -131,12 +146,15 @@ export class RegisterComponent implements OnInit {
         : { noMatching: true };
     };
   }
+  /**
+   * Registra un usuario
+  */
   register() {
-    this.AuthService.register(this.registerForm.value).subscribe({
+    this.AuthService.register(this.registerForm.value).subscribe({ // Llamar a la API para registrar un usuario
       next: () => {
-        this.router.navigate(['/auth/home']);
+        this.router.navigate(['/auth/home']); // Redirigir al inicio
       },
-      error: (result) => {
+      error: (result) => { // Manejar errores
         if (typeof result.error === 'string') {
           this.errorMessage = result.error;
         } else {

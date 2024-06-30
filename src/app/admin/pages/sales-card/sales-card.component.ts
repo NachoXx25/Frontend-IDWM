@@ -11,11 +11,10 @@ import { RoundPipe } from 'src/app/_pipes/round.pipe';
 })
 export class SalesCardComponent {
 
-  @Input() purchase: Purchase | undefined;
-
-  constructor() {}
+  @Input() purchase: Purchase | undefined; // Compra a mostrar
+  constructor() {} // Constructor del componente
 
   createRange(n: number): number[] {
-    return new Array(n);
+    return new Array(n); // Crear un array de n elementos
   }
 }

@@ -9,22 +9,24 @@ import { Observable, debounceTime, distinctUntilChanged, startWith, switchMap } 
   templateUrl: './sales.component.html',
 })
 export class SearchPurchasesComponent implements OnInit {
-  purchases$: Observable<Purchase[]> | undefined;
-  searchForm: FormGroup;
+  purchases$: Observable<Purchase[]> | undefined;  // Lista de compras
+  searchForm: FormGroup; // Formulario de búsqueda
 
-  constructor(
+  constructor( // Constructor del componente
     private userService: UserService,
     private fb: FormBuilder
   ) {
     this.searchForm = this.fb.group({
-      searchQuery: ['', Validators.required]
+      searchQuery: ['', Validators.required] // Crear el formulario de búsqueda
     });
   }
 
   ngOnInit(): void {
-    this.loadPurchasesOnChange();
+    this.loadPurchasesOnChange(); // Cargar las compras al iniciar
   }
-
+  /**
+   * Carga las compras al cambiar
+   */
   loadPurchasesOnChange(): void {
     const searchQueryControl = this.searchForm.get('searchQuery');
     if (searchQueryControl) {
@@ -34,9 +36,9 @@ export class SearchPurchasesComponent implements OnInit {
         distinctUntilChanged(), // Asegura que solo se realice una búsqueda si el valor ha cambiado
         switchMap(query => {
           if (query.trim() === '') {
-            return this.userService.getPurchases();
+            return this.userService.getPurchases(); // Llamar a la API para obtener todas las compras
           } else {
-            return this.userService.searchPurchases(query.trim());
+            return this.userService.searchPurchases(query.trim()); // Llamar a la API para buscar compras por query
           }
         })
       );

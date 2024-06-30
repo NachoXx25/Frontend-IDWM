@@ -1,4 +1,4 @@
 export interface ProductType{
-  id: number,
-  type: string
+  id: number, // Identificador del tipo de producto
+  type: string // Tipo de producto
 }

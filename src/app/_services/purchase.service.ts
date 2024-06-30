@@ -9,12 +9,15 @@ import { PurchaseInfoDto } from '../_interfaces/purchaseInfo';
   providedIn: 'root'
 })
 export class PurchaseService {
-  baseUrl: string = environment.apiUrl;
+  baseUrl: string = environment.apiUrl;  // URL de la API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }  // Constructor del servicio
 
-
-
+  /**
+   *  Realiza una compra
+   * @param purchaseDto  Datos de la compra
+   * @returns  Información de la compra
+   */
   makePurchase(purchaseDto: PurchaseDto): Observable<PurchaseInfoDto> {
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
@@ -28,7 +31,7 @@ export class PurchaseService {
     return this.http.post<PurchaseInfoDto>(url, purchaseDto, { headers }).pipe(
       catchError((error: any) => {
         let errorMessage = 'Error desconocido al realizar la compra.';
-        if (error.error instanceof ErrorEvent) {
+        if (error.error instanceof ErrorEvent) { // Si el error es un evento de error
           errorMessage = `Error: ${error.error.message}`;
         } else {
           errorMessage = error.error;
