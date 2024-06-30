@@ -20,7 +20,7 @@ import { SearchProductsComponentCustomer } from './pages/search-products/search-
         ProductCardComponentCustomer,
         ReactiveFormsModule,
         SearchProductsComponentCustomer,
-        FormsModule
+        FormsModule,
     ]
 })
 export class CustomerModule { }

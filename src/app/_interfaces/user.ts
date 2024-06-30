@@ -5,7 +5,7 @@ export interface User {
     id: number;
     rut: string;
     name: string;
-    birthdate: string;
+    birthday: Date;
     email: string;
     isActive: boolean;
     gender:   Gender;

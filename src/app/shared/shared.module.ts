@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeNavBarComponent } from './components/home-nav-bar/home-nav-bar.component';
 import { SelectInputComponent } from './components/select-input/select-input.component';
@@ -8,27 +8,27 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
   declarations: [
     FooterComponent,
     HomeNavBarComponent,
     SelectInputComponent,
     TextInputComponent,
-    SideBarComponent
+    SideBarComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    NgClass
   ],
   exports: [
     FooterComponent,
     HomeNavBarComponent,
     SelectInputComponent,
     TextInputComponent,
-    SideBarComponent
+    SideBarComponent,
+
   ]
 })
 export class SharedModule { }

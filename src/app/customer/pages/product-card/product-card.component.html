@@ -1,4 +1,4 @@
-<div class="w-full max-w-sm bg-black border border-gray-200 rounded-lg shadow flex flex-col" *ngIf="product">
+<div class="w-full max-w-sm bg-custom-morado-900 border border-gray-200 rounded-lg shadow flex flex-col" *ngIf="product">
   <div class="h-60 w-full flex items-center justify-center">
     <img class="max-h-full max-w-full object-contain p-5" [src]="product.imgUrl" [alt]="product.name" />
   </div>
@@ -12,6 +12,6 @@
 
   <div class="px-6 pt-4 pb-2">
     <input type="number" [(ngModel)]="quantity" min="1" [max]="product.stock" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-    <button (click)="selectProduct()" class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Seleccionar</button>
+    <button (click)="selectProduct()" class="mt-2 bg-custom-morado-600 hover:bg-custom-morado-400 text-white font-bold py-2 px-4 rounded">Seleccionar</button>
   </div>
 </div>

@@ -15,25 +15,30 @@
         <li>
           <p class="block text-2xl text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" aria-current="page">¡Descubre las mejores ofertas acá!</p>
         </li>
-        <li>
-          <a routerLink="/homepage" class="block mt-2 py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent hover:underline">Volver</a>
-        </li>
       </ul>
     </div>
   </div>
   <hr class="border-black">
 </nav>
 <app-search-products-customer (productSelected)="onProductSelected($event)"></app-search-products-customer>
-<!-- Aquí se mostrarán los detalles del producto seleccionado y el botón para comprar -->
+<!-- Aquí se muestra la compra -->
+<a routerLink="/auth/home" class="absolute top-0 left-0 mt-4 ml-10 inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-custom-morado-900 rounded-lg hover:bg-custom-morado-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+  <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+  </svg>
+  Volver
+</a>
+
+
 <div *ngIf="selectedProduct" class="flex justify-center">
-  <div class="max-w-sm rounded overflow-hidden shadow-lg my-4">
+  <div class="bg-custom-morado-900 max-w-sm rounded overflow-hidden shadow-lg my-4">
     <img class="w-full" [src]="selectedProduct.imgUrl" alt="{{ selectedProduct.name }}">
     <div class="px-6 py-4">
-      <div class="font-bold text-xl mb-2">{{ selectedProduct.name }}</div>
-      <p class="text-gray-700 text-base">
+      <div class="text-white font-bold text-xl mb-2">{{ selectedProduct.name }}</div>
+      <p class="text-white text-base">
         Price: ${{ selectedProduct.price }}
       </p>
-      <p class="text-gray-700 text-base">
+      <p class="text-white text-base">
         Stock: {{ selectedProduct.stock }}
       </p>
     </div>
@@ -41,9 +46,19 @@
       <input type="number" [(ngModel)]="selectedQuantity" min="1" [max]="selectedProduct.stock" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     </div>
     <div class="px-6 pt-4 pb-2">
-      <button (click)="makePurchase()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Comprar</button>
+      <button (click)="makePurchase()" class="bg-custom-morado-600 hover:bg-custom-morado-400 text-white font-bold py-2 px-4 rounded">Comprar</button>
     </div>
   </div>
 </div>
+
+
+<div *ngIf="showSuccessMessage" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-md z-50">
+  Compra realizada con éxito
+</div>
+
+<div *ngIf="showErrorMessage" class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-md z-50">
+  Error al realizar la compra
+</div>
+
 
 <app-footer></app-footer>

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { Observable, catchError, throwError } from 'rxjs';
 import { productDto } from '../_interfaces/productDto';
+import { ProductType } from '../_interfaces/productType';
 
 @Injectable({
   providedIn: 'root'
@@ -119,4 +120,32 @@ export class ProductService {
       })
     );
   }
+
+  getProductTypes(): Observable<ProductType[]> {
+    const auth = JSON.parse(localStorage.getItem('auth') || '{}');
+    const token = auth?.token;
+
+    if (!token) {
+      throw new Error('Token no encontrado en el localStorage');
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const url = `${this.baseUrl}/product/types`; // Asegúrate de usar la URL correcta del endpoint
+
+    console.log('Llamando a la API para obtener tipos de productos...');
+
+    return this.http.get<ProductType[]>(url, { headers }).pipe(
+      catchError((error: any) => {
+        let errorMessage = 'Error desconocido al obtener los tipos de productos.';
+        if (error.error instanceof ErrorEvent) {
+          errorMessage = `Error: ${error.error.message}`;
+        } else {
+          errorMessage = error.error;
+        }
+        console.error('Error al obtener tipos de productos:', error);
+        return throwError(errorMessage);
+      })
+    );
+  }
+
 }
