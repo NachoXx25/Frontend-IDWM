@@ -4,7 +4,7 @@
 For the execution of the project, the following must be installed:
 -   [Visual Studio Code 1.89.1](https://code.visualstudio.com/?wt.mc_id=vscom_downloads)
 -   [git 2.45.1](https://git-scm.com/downloads)
-- [Angular CLI version 16.2.14](https://github.com/angular/angular-cli)
+- [Angular CLI version 16.2.14](https://v16.angular.io/guide/setup-local)
 
 # Quick Start
 1. Clone this repository to your local machine using CMD:
