@@ -1,0 +1,98 @@
+<div class="absolute inset-0 aspect-w-16 h-screen">
+  <img src="../assets/images/laptop-near-smartphone-tags-tablet-packet.jpg" class="w-full h-full object-cover">
+</div>
+
+<div class="flex items-center justify-center absolute inset-0 min-h-screen overflow-auto">
+  <div class="flex items-start justify-center">
+    <form
+      class="max-w-sm justify-center bg-white border rounded-xl pl-14 pr-24 bg-opacity-50 relative"
+      [formGroup]="registerForm"
+      (ngSubmit)="registerForm.valid && register()"
+      autocomplete="off"
+    >
+      <div class="flex justify-start">
+        <a routerLink="/login">
+          <img src="../assets/images/boton-de-flecha-izquierda-del-teclado.png" class="h-6 w-6 absolute top-4 left-1">
+        </a>
+      </div>
+      <div class="mt-4 flex justify-center pl-10">
+        <h1 class="block font-bold text-gray-900 text-2xl dark:text-white m-auto mb-2">Crear cuenta</h1>
+      </div>
+
+      <app-text-input
+        [formControl]="$any(registerForm.controls['rut'])"
+        label="RUT"
+        placeholder="Ingrese su RUT. Ej: 12345678-9"
+        requiredMessage="El RUT es requerido"
+      />
+
+      <app-text-input
+        [formControl]="$any(registerForm.controls['name'])"
+        label="Nombre completo"
+        placeholder="Ingrese su nombre completo"
+        requiredMessage="El nombre completo es requerido"
+      />
+
+      <app-text-input
+        [formControl]="$any(registerForm.controls['birthday'])"
+        label="Fecha de nacimiento"
+        placeholder="Formato dd/mm/yyyy"
+        requiredMessage="La fecha de nacimiento es requerida"
+      />
+
+      <app-text-input
+        [formControl]="$any(registerForm.controls['email'])"
+        label="Correo electrónico"
+        [type]="'email'"
+        placeholder="Ingrese su correo electrónico"
+        requiredMessage="El correo electrónico es requerido"
+      />
+
+      <app-select-input
+        [formControl]="$any(registerForm.controls['genderId'])"
+        label="Género"
+        placeholder="Seleccione un género"
+        [options]="genderOptions"
+        requiredMessage="El género es requerido"
+      />
+
+      <app-text-input
+        [formControl]="$any(registerForm.controls['password'])"
+        label="Contraseña"
+        [type]="'password'"
+        placeholder="Ingrese su contraseña"
+        requiredMessage="La contraseña es requerida"
+      />
+
+      <app-text-input
+        [formControl]="$any(registerForm.controls['confirmPassword'])"
+        label="Confirme la contraseña"
+        [type]="'password'"
+        placeholder="Confirme su contraseña"
+        requiredMessage="La confirmación de la contraseña es requerida"
+      />
+
+      <div
+        *ngIf="errorMessage"
+        class="p-4 relative left-5 text-sm text-red-800 rounded-lg bg-red-50"
+        role="alert"
+      >
+        <span class="font-medium">Error!</span> {{ errorMessage }}
+      </div>
+      <div class="flex justify-center pl-10">
+          <button
+            class="w-fit my-2 px-5 py-2 text-sm font-medium text-center text-white bg-custom-morado-700 rounded-lg"
+            [disabled]="!registerForm.valid"
+            [ngClass]="
+              registerForm.valid
+                ? 'hover:bg-custom-morado-800 focus:ring-4 focus:outline-none focus:ring-blue-300'
+                : 'bg-blue-400 cursor-not-allowed'
+            "
+            type="submit"
+          >
+            Registrarse
+          </button>
+      </div>
+    </form>
+  </div>
+</div>

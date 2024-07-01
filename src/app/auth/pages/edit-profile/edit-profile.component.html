@@ -1,0 +1,59 @@
+
+<app-side-bar></app-side-bar>
+
+<div class="sm:ml-28 lg:ml-64">
+  <div class="border-2 borderrounded-lg flex flex-col justify-center h-screen items-center lg:items-center bg-cover bg-center bg-no-repeat" style="background-image: url('../../../assets/images/SettingHome.avif');">
+    <img src="../../../assets/images/usuario-de-perfil.png" class="w-32 h-32 mb-1 border border-white rounded-full">
+    <div class="rounded-2xl pb-4" style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(8px);">
+      <div class="flex flex-col justify-center mt-6 items-center lg:mx-14 pl-14 pr-24">
+        <h1 class="font-bold text-2xl mb-3 pl-10">Editar Perfil</h1>
+        <form class="max-w-md mx-auto" [formGroup]="editProfileForm" (ngSubmit)="editProfileForm.valid && editProfile()">
+          <app-text-input
+            [formControl]="$any(editProfileForm.controls['name'])"
+            label="Nombre completo"
+            placeholder="Ingrese su nombre completo"
+          />
+
+          <app-text-input
+            [formControl]="$any(editProfileForm.controls['birthday'])"
+            label="Fecha de nacimiento"
+            placeholder="Formato dd/mm/yyyy"
+          />
+          <app-select-input
+            [formControl]="$any(editProfileForm.controls['genderId'])"
+            label="Género"
+            placeholder="Seleccione un género"
+            [options]="genderOptions"
+          />
+
+          <div class="flex justify-center pl-10">
+            <button
+              class="w-fit my-2 px-5 py-2 text-sm font-medium text-center text-white bg-custom-morado-700 rounded-lg"
+              [disabled]="!editProfileForm.valid || editProfileForm.pristine"
+              [ngClass]="
+                editProfileForm.valid
+                  ? 'hover:bg-custom-morado-800 focus:ring-4 focus:outline-none focus:ring-blue-300'
+                  : 'bg-blue-400 cursor-not-allowed'
+              "
+              type="submit"
+            >
+              ¡Guardar cambios!
+            </button>
+        </div>
+      </form>
+      <div
+      *ngIf="successMessage == true"
+      class="p-4 relative left-5 bottom-0 text-sm text-custom-morado-800 rounded-lg bg-custom-morado-50"
+      role="alert"
+      >
+      ¡Listo! Perfil cambiado con éxito.
+      </div>
+      <div *ngIf="errors.length > 0" class="p-4 relative left-5 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+        <ul class="mt-2">
+          <li *ngFor="let error of errors">{{ error }}</li>
+        </ul>
+      </div>
+    </div>
+    </div>
+</div>
+
