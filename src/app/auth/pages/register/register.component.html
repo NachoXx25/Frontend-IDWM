@@ -72,11 +72,12 @@
         requiredMessage="La confirmación de la contraseña es requerida"
       />
 
-      <div *ngIf="errors.length > 0" class="p-4 relative left-5 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
-        <span class="font-medium">Errores:</span>
-        <ul class="mt-2">
-          <li *ngFor="let error of errors">{{ error }}</li>
-        </ul>
+      <div
+        *ngIf="errorMessage"
+        class="p-4 relative left-5 text-sm text-red-800 rounded-lg bg-red-50"
+        role="alert"
+      >
+        <span class="font-medium">Error!</span> {{ errorMessage }}
       </div>
       <div class="flex justify-center pl-10">
           <button
