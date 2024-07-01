@@ -1,9 +1,10 @@
 import { AuthService } from '../../../auth/services/auth.service';
 import { UserService } from '../../../_services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from 'src/app/_interfaces/auth';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-edit-profile',
@@ -21,7 +22,8 @@ export class EditProfileComponent implements OnInit {
   errorMessage: string = ''; // Mensaje de error
   successMessage: boolean = false; // Mensaje de éxito
   auth: Auth | null = null; // Autenticación
-  constructor(private router: Router, private fb: FormBuilder, private UserService: UserService, private authService: AuthService) { }
+  errors: any[] = []; // Errores
+  constructor(private router: Router, private fb: FormBuilder, private UserService: UserService, private authService: AuthService, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Inicializar el formulario
@@ -73,18 +75,42 @@ export class EditProfileComponent implements OnInit {
    * Edita el perfil
    */
   editProfile() {
+    this.errors = []; // Reiniciar errores
     this.errorMessage = ''; // Reiniciar mensajes
     this.successMessage = false; // Reiniciar mensajes
-    this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value)
-    .then((result) => {
-      this.successMessage = true
-      this.editProfileForm.reset();
-      console.log('Perfil cambiado: ', result);
-      })
-      .catch((error) => { // Capturar errores
-        this.errorMessage = error;
-        console.error('Error: ', error);
-      });
-  }
+    this.UserService.editUser(this.auth?.user?.id ?? 0, this.editProfileForm.value).subscribe({
+      next: (result: any) => {
+        this.successMessage = true
+        this.editProfileForm.reset();
+        console.log('Perfil cambiado:', result);
+      },
+      error: (err: HttpErrorResponse) => {
+        let jsonErrors;
 
+          try {
+            jsonErrors = JSON.parse(err.error); // Convertir el error a JSON
+            this.errors = []; // Reiniciar errores
+            const fieldNames: { [key: string]: string } = {
+              name: 'El nombre',
+              birthday: 'La fecha de nacimiento',
+              genderId: 'El género',
+            }; // Nombres de los campos al español
+
+            for (const key in jsonErrors.errors) { // Recorrer los errores
+              if (jsonErrors.errors.hasOwnProperty(key)) { // Si tiene la propiedad
+                const errorMessages = jsonErrors.errors[key]; // Obtener los mensajes de error
+                const fieldName = fieldNames[key] || key; // Obtener el nombre del campo
+                for (const message of errorMessages) { // Recorrer los mensajes de error
+                  this.errors.push(`${message}`); // Agregar el mensaje de error
+                }
+              }
+            }
+
+          } catch (e) { // Si no se puede convertir a JSON
+            this.errors.push(`Error: ${err.error}`); // Agregar el error
+            this.cd.detectChanges(); // Detectar cambios
+          }
+      },
+    });
+  }
 }

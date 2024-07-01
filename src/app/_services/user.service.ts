@@ -15,27 +15,14 @@ export class UserService {
   baseUrl: string = environment.apiUrl; // URL de la API
   errorMessage: string = 'Ocurrió un error inesperado.'; // Mensaje de error
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { } // Constructor del servicio
-  /**
-   *  Maneja los errores de la API
-   * @param error  Error de la API
-   * @returns  Mensaje de error
-   */
-  handleError(error: any) {
-    if (error.error && error.error.errors && error.error.errors.NewPassword) {
-      this.errorMessage = error.error.errors.NewPassword[0];
-    }
-    else if (error.error && error.error.message) {
-      this.errorMessage = error.error.message;
-    }
-    return throwError(this.errorMessage);
-  }
+
   /**
    *  Cambia la contraseña de un usuario
    * @param userId  ID del usuario
    * @param model  Modelo con la nueva contraseña
    * @returns  Mensaje de éxito o error
    */
-  async changePassword(userId: number, model:any) {
+  changePassword(userId: number, model:any) {
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
     if(!token) {
@@ -43,9 +30,8 @@ export class UserService {
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`); // Crear un objeto de cabeceras con el token
 
-    return await firstValueFrom( // Esperar a que se complete la petición
-      this.http.put(`${this.baseUrl}/user/${userId}/password`, model, { headers, responseType: 'text' }).pipe(catchError(this.handleError))
-    );
+
+    return this.http.put(`${this.baseUrl}/user/${userId}/password`, model, { headers, responseType: 'text' as 'json' });
   }
   /**
    *  Edita un usuario
@@ -53,16 +39,14 @@ export class UserService {
    * @param model  Modelo con los datos del usuario
    * @returns  Mensaje de éxito o error
    */
-  async editUser(userId: number, model: any) {
+  editUser(userId: number, model: any){
     const auth = JSON.parse(localStorage.getItem('auth') || '{}');
     const token = auth?.token;
     if(!token) {
       throw new Error('Token not found');
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return await firstValueFrom( // Esperar a que se complete la petición
-      this.http.put(`${this.baseUrl}/user/${userId}`, model, { headers, responseType: 'text' }).pipe(catchError(this.handleError))
-    );
+    return this.http.put(`${this.baseUrl}/user/${userId}`, model, { headers, responseType: 'text' as 'json'  });
   }
   /**
    *  Cambia el estado de un usuario

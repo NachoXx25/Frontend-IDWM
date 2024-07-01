@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,8 @@ export class RegisterComponent implements OnInit {
     { value: '4', text: 'Otro' },
   ]; // Opciones de género
   errorMessage: string = ''; // Mensaje de error
-  constructor(private router: Router, private AuthService: AuthService, private fb: FormBuilder) { }
+  errors: any[] = []; // Errores
+  constructor(private router: Router, private AuthService: AuthService, private fb: FormBuilder, private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.initializeForm(); // Inicializar el formulario
@@ -150,17 +152,32 @@ export class RegisterComponent implements OnInit {
    * Registra un usuario
   */
   register() {
+    this.errors = []; // Reiniciar errores
     this.AuthService.register(this.registerForm.value).subscribe({ // Llamar a la API para registrar un usuario
       next: () => {
         this.router.navigate(['/auth/home']); // Redirigir al inicio
       },
-      error: (result) => { // Manejar errores
-        if (typeof result.error === 'string') {
-          this.errorMessage = result.error;
-        } else {
-          this.errorMessage = 'Intente nuevamente';
-        }
-      }
+      error: (err: HttpErrorResponse) => {
+        let jsonErrors;
+
+          try {
+            jsonErrors = JSON.parse(err.error); // Convertir el error a JSON
+            this.errors = []; // Reiniciar errores
+
+            for (const key in jsonErrors.errors) { // Recorrer los errores
+              if (jsonErrors.errors.hasOwnProperty(key)) { // Si tiene la propiedad
+                const errorMessages = jsonErrors.errors[key]; // Obtener los mensajes de error
+                for (const message of errorMessages) { // Recorrer los mensajes de error
+                  this.errors.push(`${message}`); // Agregar el mensaje de error
+                }
+              }
+            }
+
+          } catch (e) { // Si no se puede convertir a JSON
+            this.errors.push(`Error: ${err.error}`); // Agregar el error
+            this.cd.detectChanges(); // Detectar cambios
+          }
+      },
     });
   }
 }
